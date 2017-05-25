@@ -21,16 +21,11 @@ function show_all_users($prepared_args) {
 }
 new UserFields();
 
-
-
-
-
-
-
-function facebook_add_user_data() {
+// Add the field to the right route
+function jh_add_user_data() {
 
   // Register a response field from the 'user' object, with a key of 'email', and some args
-  register_rest_field( 'user', 'email', array(
+  register_rest_field( 'user', 'jh_meta', array(
           // Callback function to retrieve value of this field
           'get_callback'  => 'rest_get_user_field',
           // Value readable but not updatable
@@ -39,8 +34,31 @@ function facebook_add_user_data() {
        )
   );
 }
-add_action( 'rest_api_init', 'facebook_add_user_data' );
 
+// Do the thing
+add_action( 'rest_api_init', 'jh_add_user_data' );
+
+
+// Callback to populate field with data
 function rest_get_user_field( $user, $field_name, $request ) {
-    return get_user_meta( $user[ 'id' ], $field_name, true );
+
+  $pic_1 = xprofile_get_field_data(  'Primary gallery picture',  $user['id'],  'array' );
+  $pic_2 = xprofile_get_field_data(  'Alternate gallery picture',  $user['id'],  'array' );
+  $pic_fallback = bp_core_fetch_avatar ( array(
+    'item_id' => $user['id'],
+    'html'=>false,
+    'type'=>'full' ) );
+
+  return array(
+      dept => get_user_meta($user['id'],'user_team',true)[0],
+      roles => get_user_meta($user['id'],'simon_capabilities',true),
+      job_title=> get_user_meta($user['id'],'user_job_title',true),
+      phone => get_user_meta($user['id'],'user_telephone',true),
+      email => get_userdata($user['id'])->user_email,
+      twitter => get_user_meta($user['id'],'user_twitter_handle',true),
+      primary_picture => $pic_1,
+      alt_picture => $pic_2,
+      fallback_picture => $pic_fallback
+  );
+
 }
