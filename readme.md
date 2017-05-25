@@ -1,5 +1,5 @@
-Simon API Fixer
-==============
+Simon Says
+==========
 
 This is a quick WP plugin to modify the JSON response for the users endpoint of the WP API on the UWSU staff intranet. It exposes additional Buddypress and WP core user fields in order to populate the team gallery widget over on UWSU.com.
 

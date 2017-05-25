@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: API Fixer
+Plugin Name: Simon Says
 Plugin URI:  http://github.com/jhackett1/simon-api-fixer
 Description: Rejigs the output of the user API endpoint expose users who have not authored posts, to make the team gallery work
 Version:     1
